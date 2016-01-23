@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	myRobot = new RobotDrive(0,1);
+    	myRobot = new RobotDrive(5,1);
     	stick = new Joystick(0);
     }
     
