@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2412.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -17,12 +18,14 @@ public class Robot extends IterativeRobot {
 	Joystick stick;
 	int autoLoopCounter;
 	
+	CANTalon testCAN = new CANTalon(4);
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-    	myRobot = new RobotDrive(5,1);
+    	myRobot = new RobotDrive(testCAN, new CANTalon(2), new CANTalon(3), new CANTalon(5));
     	stick = new Joystick(0);
     }
     
@@ -56,7 +59,18 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        myRobot.arcadeDrive(stick);
+    	if(stick.getRawButton(1)) {
+    		testCAN.set(stick.getX());
+    	} else {
+    		myRobot.arcadeDrive(stick);
+    	}
+        //myRobot.arcadeDrive(stick);
+    	//respond to joystick trigger
+    	/*if(stick.getRawButton(1)) { //button 1 is the trigger
+    		//drive
+    		myRobot.drive(-1.0, 0);
+    	}*/
+    	
     }
     
     /**
