@@ -43,18 +43,18 @@ public abstract class RobotControl {
 		timer.startTimer();
 		//...
 	}
-	public final String process() {
-		if(pDisabled) return "";
-		if(!checkInputs()) return ""; //no buttons have been pressed
+	public final void process() {
+		if(pDisabled) return;
+		if(!checkInputs()) return; //no buttons have been pressed
 		if(!running) start(); //start the robot if we are not already running
 		//check if time has exceeded max time.
 		//the timer must be started before we check how much time has passed.
 		if(timer.getElaspedTime() > maxtime) {
 			if(this instanceof DriveControl) timer.resetTimer(); //reset if this is instance of drivecontrol
-			return "";
+			return;
 		}
 		internalProcess();
-		return "";
+		return;
 	}
 	/**A class to keep track of time*/
 	private class Timer {

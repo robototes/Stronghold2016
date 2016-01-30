@@ -67,8 +67,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	for(RobotControl rc : rcs) {
-    		String str = rc.process();
-    		if(!str.equals("")) messages.add(str);
+    		rc.process();
     	}
     	/*if(stick.getRawButton(1)) {
     		testCAN.set(stick.getX());
