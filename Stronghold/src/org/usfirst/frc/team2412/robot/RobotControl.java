@@ -20,6 +20,8 @@ public abstract class RobotControl {
 	long maxtime;
 	//timer to keep track of elapsed time
 	Timer timer;
+	//boolean to track if this object has been disabled permanently
+	boolean pDisabled = false;
 	public RobotControl(Joystick stick, SpeedController sc[], int buttons[], long maxtime) {
 		this.stick = stick;
 		this.scs = sc;
@@ -41,17 +43,18 @@ public abstract class RobotControl {
 		timer.startTimer();
 		//...
 	}
-	public final void process() {
-		if(!checkInputs()) return; //no buttons have been pressed
+	public final String process() {
+		if(pDisabled) return "";
+		if(!checkInputs()) return ""; //no buttons have been pressed
 		if(!running) start(); //start the robot if we are not already running
 		//check if time has exceeded max time.
 		//the timer must be started before we check how much time has passed.
 		if(timer.getElaspedTime() > maxtime) {
 			if(this instanceof DriveControl) timer.resetTimer(); //reset if this is instance of drivecontrol
-			return;
+			return "";
 		}
-		
 		internalProcess();
+		return "";
 	}
 	/**A class to keep track of time*/
 	private class Timer {

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2412.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -18,8 +20,12 @@ public class Robot extends IterativeRobot {
 	Joystick stick;
 	int autoLoopCounter;
 	
+	CANTalon CANs[] = {new CANTalon(2), new CANTalon(3), new CANTalon(4), new CANTalon(5)};
 	CANTalon testCAN = new CANTalon(4);
 	RobotControl rcs[];
+	//RobotControl rcs[] = {new DriveControl(stick, CANS, ), new C};
+	
+	ArrayList<String> messages = new ArrayList<String>();
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -61,7 +67,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	for(RobotControl rc : rcs) {
-    		rc.process();
+    		String str = rc.process();
+    		if(!str.equals("")) messages.add(str);
     	}
     	/*if(stick.getRawButton(1)) {
     		testCAN.set(stick.getX());

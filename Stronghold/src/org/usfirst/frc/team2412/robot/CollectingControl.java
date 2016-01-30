@@ -11,8 +11,7 @@ public class CollectingControl extends RobotControl {
 
 	@Override
 	protected void internalProcess() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("CollectorControl");
 	}
 	
 }
