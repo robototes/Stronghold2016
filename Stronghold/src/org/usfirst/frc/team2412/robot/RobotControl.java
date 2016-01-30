@@ -12,8 +12,9 @@ public abstract class RobotControl {
 	SpeedController scs[];
 	
 	//array of button indexes that this class will respond to.
-	int buttons[];
-	
+	int allowedButtons[];
+	//array of button indexes that will prevent this class from running when pressed
+	int forbiddenButtons[];
 	//whether this RobotControl is running
 	boolean running = false;
 	//the maximum amount of time that this RobotControl can run
@@ -22,15 +23,17 @@ public abstract class RobotControl {
 	Timer timer;
 	//boolean to track if this object has been disabled permanently
 	boolean pDisabled = false;
-	public RobotControl(Joystick stick, SpeedController sc[], int buttons[], long maxtime) {
+	public RobotControl(Joystick stick, SpeedController sc[], int buttons[], int forbiddenButtons[], long maxtime) {
 		this.stick = stick;
 		this.scs = sc;
+		this.allowedButtons = buttons;
+		this.forbiddenButtons = forbiddenButtons;
 		this.maxtime = maxtime;
 		timer = new Timer();
 	}
 	protected abstract void internalProcess(); //internal process for controlling motors, etc.
 	/**Returns whether AT LEAST ONE of the buttons specified in the array buttons have been pressed.*/
-	protected boolean checkInputs() {
+	protected boolean buttonsPressed(int buttons[]) {
 		for(int button : buttons) {
 			if(stick.getRawButton(button)) return true;
 		}
@@ -44,8 +47,7 @@ public abstract class RobotControl {
 		//...
 	}
 	public final void process() {
-		if(pDisabled) return;
-		if(!checkInputs()) return; //no buttons have been pressed
+		if(pDisabled || buttonsPressed(forbiddenButtons) || !buttonsPressed(allowedButtons)) return; //this class is disabled, or a forbiddenButton has been pressed, or no relevant buttons have been pressed.
 		if(!running) start(); //start the robot if we are not already running
 		//check if time has exceeded max time.
 		//the timer must be started before we check how much time has passed.

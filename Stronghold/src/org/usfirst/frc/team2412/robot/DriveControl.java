@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class DriveControl extends RobotControl {
 
-	public DriveControl(Joystick stick, SpeedController sc[], int buttons[], long maxtime) {
-		super(stick, sc, buttons, maxtime);
+	public DriveControl(Joystick stick, SpeedController sc[], int buttons[], int forbiddenButtons[], long maxtime) {
+		super(stick, sc, buttons, forbiddenButtons, maxtime);
 	}
 	
 
