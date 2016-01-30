@@ -19,6 +19,7 @@ public class Robot extends IterativeRobot {
 	int autoLoopCounter;
 	
 	CANTalon testCAN = new CANTalon(4);
+	RobotControl rcs[];
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -59,11 +60,15 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	if(stick.getRawButton(1)) {
+    	for(RobotControl rc : rcs) {
+    		rc.process();
+    	}
+    	/*if(stick.getRawButton(1)) {
     		testCAN.set(stick.getX());
     	} else {
+    		SmartDashboard.putString("Status", "Driving - ArcadeDrive");
     		myRobot.arcadeDrive(stick);
-    	}
+    	}*/
         //myRobot.arcadeDrive(stick);
     	//respond to joystick trigger
     	/*if(stick.getRawButton(1)) { //button 1 is the trigger
