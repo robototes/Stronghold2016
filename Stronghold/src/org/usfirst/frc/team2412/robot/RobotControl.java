@@ -32,9 +32,12 @@ public abstract class RobotControl {
 		timer = new Timer();
 	}
 	protected abstract void internalProcess(); //internal process for controlling motors, etc.
-	/**Returns whether AT LEAST ONE of the buttons specified in the array buttons have been pressed.*/
+	/**Returns whether AT LEAST ONE of the buttons specified in the array buttons have been pressed.
+	 * -1 specifies movement of the joystick.*/
 	protected boolean buttonsPressed(int buttons[]) {
+		if(buttons == null) return false;
 		for(int button : buttons) {
+			if(button < 1) return true; //return true if the joystick is being moved. TODO add epsilon?
 			if(stick.getRawButton(button)) return true;
 		}
 		return false;

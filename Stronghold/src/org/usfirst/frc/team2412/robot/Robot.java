@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -22,9 +23,13 @@ public class Robot extends IterativeRobot {
 	
 	CANTalon CANs[] = {new CANTalon(2), new CANTalon(3), new CANTalon(4), new CANTalon(5)};
 	CANTalon testCAN = new CANTalon(4);
-	RobotControl rcs[];
-	//RobotControl rcs[] = {new DriveControl(stick, CANS, ), new C};
+	//allowed and forbidden buttons for dc (DriveControl) and cc (CollectingControl)
+	int dcAllowedButtons[] = {-1};
+	int dcForbiddenButtons[] = {12};
 	
+	int ccAllowedButtons[] = {1};
+	int ccForbiddenButtons[] = {};
+	RobotControl rcs[] = new RobotControl[5];
 	ArrayList<String> messages = new ArrayList<String>();
 	
     /**
@@ -34,6 +39,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	myRobot = new RobotDrive(testCAN, new CANTalon(2), new CANTalon(3), new CANTalon(5));
     	stick = new Joystick(0);
+    	rcs[0] = new DriveControl(stick, CANs, dcAllowedButtons, dcForbiddenButtons, 1000);
+    	rcs[1] = new CollectingControl(stick, CANs, ccAllowedButtons, ccForbiddenButtons, 1000);
     }
     
     /**
@@ -67,7 +74,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	for(RobotControl rc : rcs) {
-    		rc.process();
+    		if(rc!=null) rc.process();
     	}
     	/*if(stick.getRawButton(1)) {
     		testCAN.set(stick.getX());
