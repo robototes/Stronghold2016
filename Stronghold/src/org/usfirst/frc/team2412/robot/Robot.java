@@ -27,75 +27,77 @@ public class Robot extends IterativeRobot {
 	int dcAllowedButtons[] = {-1};
 	int dcForbiddenButtons[] = {12};
 	
-	int ccAllowedButtons[] = {1};
+	int ccAllowedButtons[] = {12};
 	int ccForbiddenButtons[] = {};
+	//motors for cc
+	CANTalon ccCANs[] = {CANs[0], CANs[2]};
 	RobotControl rcs[] = new RobotControl[5];
 	ArrayList<String> messages = new ArrayList<String>();
 	
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-    	myRobot = new RobotDrive(testCAN, new CANTalon(2), new CANTalon(3), new CANTalon(5));
-    	stick = new Joystick(0);
-    	rcs[0] = new DriveControl(stick, CANs, dcAllowedButtons, dcForbiddenButtons, 1000);
-    	rcs[1] = new CollectingControl(stick, CANs, ccAllowedButtons, ccForbiddenButtons, 1000);
-    }
-    
-    /**
-     * This function is run once each time the robot enters autonomous mode
-     */
-    public void autonomousInit() {
-    	autoLoopCounter = 0;
-    }
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {
+		myRobot = new RobotDrive(testCAN, new CANTalon(2), new CANTalon(3), new CANTalon(5));
+		stick = new Joystick(0);
+		rcs[0] = new DriveControl(stick, CANs, dcAllowedButtons, dcForbiddenButtons, 1000000);
+		rcs[1] = new CollectingControl(stick, ccCANs, ccAllowedButtons, ccForbiddenButtons, 1000);
+	}
+	
+	/**
+	 * This function is run once each time the robot enters autonomous mode
+	 */
+	public void autonomousInit() {
+		autoLoopCounter = 0;
+	}
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-    	if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
 		{
 			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
 			autoLoopCounter++;
 			} else {
 			myRobot.drive(0.0, 0.0); 	// stop robot
 		}
-    }
-    
-    /**
-     * This function is called once each time the robot enters tele-operated mode
-     */
-    public void teleopInit(){
-    }
+	}
+	
+	/**
+	 * This function is called once each time the robot enters tele-operated mode
+	 */
+	public void teleopInit(){
+	}
 
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-    	for(RobotControl rc : rcs) {
-    		if(rc!=null) rc.process();
-    	}
-    	/*if(stick.getRawButton(1)) {
-    		testCAN.set(stick.getX());
-    	} else {
-    		SmartDashboard.putString("Status", "Driving - ArcadeDrive");
-    		myRobot.arcadeDrive(stick);
-    	}*/
-        //myRobot.arcadeDrive(stick);
-    	//respond to joystick trigger
-    	/*if(stick.getRawButton(1)) { //button 1 is the trigger
-    		//drive
-    		myRobot.drive(-1.0, 0);
-    	}*/
-    	
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-    	LiveWindow.run();
-    }
-    
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		for(RobotControl rc : rcs) {
+			if(rc!=null) rc.process();
+		}
+		/*if(stick.getRawButton(1)) {
+			testCAN.set(stick.getX());
+		} else {
+			SmartDashboard.putString("Status", "Driving - ArcadeDrive");
+			myRobot.arcadeDrive(stick);
+		}*/
+		//myRobot.arcadeDrive(stick);
+		//respond to joystick trigger
+		/*if(stick.getRawButton(1)) { //button 1 is the trigger
+			//drive
+			myRobot.drive(-1.0, 0);
+		}*/
+		
+	}
+	
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		LiveWindow.run();
+	}
+	
 }

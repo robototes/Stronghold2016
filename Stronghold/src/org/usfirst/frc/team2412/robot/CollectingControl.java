@@ -5,12 +5,15 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class CollectingControl extends RobotControl {
 
-	public CollectingControl(Joystick stick, SpeedController sc[], int buttons[], int forbiddenButtons[], long maxtime) {
-		super(stick, sc, buttons, forbiddenButtons, maxtime);
+	public CollectingControl(Joystick stick, SpeedController scs[], int buttons[], int forbiddenButtons[], long maxtime) {
+		super(stick, scs, buttons, forbiddenButtons, maxtime);
 	}
 
 	@Override
 	protected void internalProcess() {
+		for(SpeedController s : scs) {
+			s.set(0); //to prevent not updated enough errors
+		}
 		System.out.println("CollectorControl");
 	}
 	

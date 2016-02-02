@@ -10,7 +10,6 @@ public abstract class RobotControl {
 	Joystick stick;
 	//motor controllers to be driven
 	SpeedController scs[];
-	
 	//array of button indexes that this class will respond to.
 	int allowedButtons[];
 	//array of button indexes that will prevent this class from running when pressed
@@ -55,9 +54,13 @@ public abstract class RobotControl {
 		//check if time has exceeded max time.
 		//the timer must be started before we check how much time has passed.
 		if(timer.getElaspedTime() > maxtime) {
-			if(this instanceof DriveControl) timer.resetTimer(); //reset if this is instance of drivecontrol
+			/*if(this instanceof DriveControl) */timer.resetTimer(); //reset if this is instance of drivecontrol
+			
 			return;
 		}
+//		for(SpeedController sc : scs) {
+//			sc.set(1.0);
+//		}
 		internalProcess();
 		return;
 	}
@@ -67,10 +70,10 @@ public abstract class RobotControl {
 		void startTimer() {
 			origTime = System.nanoTime();
 		}
-		/**Gets the time elapsed since the timer has been started.*/
+		/**Gets the time elapsed since the timer has been started, in milliseconds.*/
 		protected long getElaspedTime() {
 			if(origTime == -1) throw new IllegalStateException();
-			return System.nanoTime() - origTime;
+			return (System.nanoTime() - origTime) / 1000000;
 		}
 		void resetTimer() {
 			origTime = System.nanoTime();
