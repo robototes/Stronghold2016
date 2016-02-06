@@ -1,11 +1,8 @@
 package org.usfirst.frc.team2412.robot;
 
-import java.util.ArrayList;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
@@ -17,52 +14,46 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	RobotDrive myRobot;
-	Joystick stick;
-	int autoLoopCounter;
+	Joystick driverControls; //Joystick for controlling driving
+	Joystick coDriverControls; //"Joystick" (actually the co-driver) for other operations such as shooting 
 	
-	CANTalon CANs[] = {new CANTalon(2), new CANTalon(3), new CANTalon(4), new CANTalon(5)};
-	CANTalon testCAN = new CANTalon(4);
-	//allowed and forbidden buttons for dc (DriveControl) and cc (CollectingControl)
-	int dcAllowedButtons[] = {-1};
-	int dcForbiddenButtons[] = {12};
+	CANTalon driveCANs[] = {new CANTalon(2), new CANTalon(3), new CANTalon(4), new CANTalon(5)};
+	//buttons for ic (IntakeControl-Collecting the ball)
 	
-	int ccAllowedButtons[] = {12};
-	int ccForbiddenButtons[] = {};
+	int intakeControlButtons[] = {Constants.SHOOTOUTBALLBUTTONID, Constants.TAKEINBALLBUTTONID};
 	//motors for cc
-	CANTalon ccCANs[] = {CANs[0], CANs[2]};
+	CANTalon intakeControlCANs[] = {driveCANs[0], driveCANs[2]}; //TODO change this to the actual CAN that we will be using for the collector
 	RobotControl rcs[] = new RobotControl[5];
-	ArrayList<String> messages = new ArrayList<String>();
 	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		myRobot = new RobotDrive(testCAN, new CANTalon(2), new CANTalon(3), new CANTalon(5));
-		stick = new Joystick(0);
-		rcs[0] = new DriveControl(stick, CANs, dcAllowedButtons, dcForbiddenButtons, 1000000);
-		rcs[1] = new CollectingControl(stick, ccCANs, ccAllowedButtons, ccForbiddenButtons, 1000);
+		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
+		driverControls = new Joystick(0);
+		rcs[0] = new DriveControl(driverControls, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
+		rcs[1] = new IntakeControl(driverControls);
+		rcs[2] = new ClimbControl(driverControls);
 	}
 	
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
-		autoLoopCounter = 0;
 	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
+		/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
 		{
 			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
 			autoLoopCounter++;
 			} else {
 			myRobot.drive(0.0, 0.0); 	// stop robot
-		}
+		}*/
 	}
 	
 	/**
@@ -75,21 +66,13 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		//check if any of the gear change buttons (used for climbing) have been pressed and remove DriveControl if they have (because we won't need it when climbing)
+		if(driverControls.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || driverControls.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
+			rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
+		}
 		for(RobotControl rc : rcs) {
 			if(rc!=null) rc.process();
 		}
-		/*if(stick.getRawButton(1)) {
-			testCAN.set(stick.getX());
-		} else {
-			SmartDashboard.putString("Status", "Driving - ArcadeDrive");
-			myRobot.arcadeDrive(stick);
-		}*/
-		//myRobot.arcadeDrive(stick);
-		//respond to joystick trigger
-		/*if(stick.getRawButton(1)) { //button 1 is the trigger
-			//drive
-			myRobot.drive(-1.0, 0);
-		}*/
 		
 	}
 	
