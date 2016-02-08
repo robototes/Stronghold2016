@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2412.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
@@ -14,16 +12,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	Joystick driverControls; //Joystick for controlling driving
-	Joystick coDriverControls; //"Joystick" (actually the co-driver) for other operations such as shooting 
-	
-	CANTalon driveCANs[] = {new CANTalon(2), new CANTalon(3), new CANTalon(4), new CANTalon(5)};
-	//buttons for ic (IntakeControl-Collecting the ball)
-	
-	int intakeControlButtons[] = {Constants.SHOOTOUTBALLBUTTONID, Constants.TAKEINBALLBUTTONID};
-	//motors for cc
-	CANTalon intakeControlCANs[] = {driveCANs[0], driveCANs[2]}; //TODO change this to the actual CAN that we will be using for the collector
-	RobotControl rcs[] = new RobotControl[5];
+	RobotControl rcs[] = new RobotControl[3];
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,10 +20,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void robotInit() {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
-		driverControls = new Joystick(0);
-		rcs[0] = new DriveControl(driverControls, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
-		rcs[1] = new IntakeControl(driverControls);
-		rcs[2] = new ClimbControl(driverControls);
+		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
+		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
+		rcs[2] = new ClimbControl(Constants.DRIVERCONTROLS);
 	}
 	
 	/**
@@ -67,7 +55,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		//check if any of the gear change buttons (used for climbing) have been pressed and remove DriveControl if they have (because we won't need it when climbing)
-		if(driverControls.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || driverControls.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
+		if(Constants.DRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || Constants.DRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
 			rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
 		}
 		for(RobotControl rc : rcs) {

@@ -1,8 +1,13 @@
 package org.usfirst.frc.team2412.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Joystick;
 
 public final class Constants {
+	//Joysticks
+	public static final Joystick DRIVERCONTROLS = new Joystick(0); //Joystick for controlling driving
+	public static final Joystick CODRIVERCONTROLS = new Joystick(1); //"Joystick" (actually the co-driver) for other operations such as shooting
+	
 	//CANTalons for DriveControl
 	public static final CANTalon DRIVEFRONTLEFTCONTROLLER = new CANTalon(2);
 	public static final CANTalon DRIVEREARLEFTCONTROLLER = new CANTalon(4);
