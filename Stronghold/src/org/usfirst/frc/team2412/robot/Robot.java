@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
 		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
 		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
-		rcs[2] = new ClimbControl(Constants.DRIVERCONTROLS);
+		rcs[2] = new ClimbControl(Constants.CODRIVERCONTROLS);
 	}
 	
 	/**

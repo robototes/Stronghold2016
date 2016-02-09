@@ -14,6 +14,7 @@ public class DriveControl extends RobotControl {
 	
 
 	void drive() {
+		
 		rd.arcadeDrive(stick);
 	}
 	@Override
