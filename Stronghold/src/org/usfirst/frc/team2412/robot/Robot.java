@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	RobotControl rcs[] = new RobotControl[3];
+	RobotControl rcs[] = new RobotControl[2];
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -22,7 +22,6 @@ public class Robot extends IterativeRobot {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
 		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
 		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
-		rcs[2] = new ClimbControl(Constants.CODRIVERCONTROLS);
 	}
 	
 	/**
@@ -54,9 +53,14 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		//check if any of the gear change buttons (used for climbing) have been pressed and remove DriveControl if they have (because we won't need it when climbing)
-		if(Constants.DRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || Constants.DRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
-			rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
+		//check if any of the gear change buttons (used for climbing) have not been pressed (they are being pressed by default on the old codriver) and remove DriveControl if they have (because we won't need it when climbing)
+		//TODO change this to check if the buttons are being pressed (vs. if they are NOT being pressed)
+		if(!Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || !Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
+			//rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
+			if(rcs[0] instanceof RobotControl) {
+				rcs[0] = new ClimbControl(Constants.CODRIVERCONTROLS);
+				System.out.println("ClimbControl");
+			}
 		}
 		for(RobotControl rc : rcs) {
 			if(rc!=null) rc.process();

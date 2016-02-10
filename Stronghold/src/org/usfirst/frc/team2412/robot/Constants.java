@@ -20,9 +20,9 @@ public final class Constants {
 	//Motor Controller for IntakeControl
 	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
 	
-	//Button IDs for ClimbControl
-	public static final int GEARCHANGELEFTBUTTONID = 10;
-	public static final int GEARCHANGERIGHTBUTTONID = 11;
+	//Button IDs for ClimbControl (They will be on the codriver)
+	public static final int GEARCHANGELEFTBUTTONID = 1;
+	public static final int GEARCHANGERIGHTBUTTONID = 2;
 	public static final int EXTENDARMBUTTONID = 12;
 	public static final int PULLUPROBOTBUTTONID = 9;
 	//Motor Controllers for ClimbControl

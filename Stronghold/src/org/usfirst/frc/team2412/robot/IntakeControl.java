@@ -11,7 +11,7 @@ public class IntakeControl extends RobotControl {
 	private void takeInBall(boolean buttonPressed) {
 		if(buttonPressed) {
 			//start taking in the ball if we haven't already
-			Constants.INTAKEMOTORCONTROLLER.set(1.0);
+			Constants.INTAKEMOTORCONTROLLER.set(1);
 		} else {
 			Constants.INTAKEMOTORCONTROLLER.set(0); //stop the motor
 		}
