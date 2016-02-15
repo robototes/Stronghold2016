@@ -2,7 +2,30 @@ package org.usfirst.frc.team2412.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
 
+
+// Robot CANTalon <ID> assignment guide
+//
+//       (Front)
+//   ____       ____
+//  |    |     |    |
+//[]|    |     |    |[]
+//[]|    |     |    |[]
+//  |    |-----|    |
+//[]|               |[]
+//[]|    <7><8>     |[]
+//  |      <6>  <9> |
+//[]|<0><2>   <5><3>|[]
+//[]|<1>         <4>|[]
+//   ---------------
+//
+//        (Back)
+//
+// 0,1,3,4 = Drive/Climb motors
+// 6 = Extend motor
+// 7,8 = Climb motor mode switch
+// 9 = Intake motor
 public final class Constants {
 	//Joysticks
 	public static final Joystick DRIVERCONTROLS = new Joystick(0); //Joystick for controlling driving
@@ -17,8 +40,8 @@ public final class Constants {
 	//Buttons IDs for IntakeControl
 	public static final int TAKEINBALLBUTTONID = 5;
 	public static final int SHOOTOUTBALLBUTTONID = 6;
-	//Motor Controller for IntakeControl
-	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
+	//Motor Controller for IntakeControl (currently talon sr, should change to talon srx)
+	public static final Talon INTAKEMOTORCONTROLLER = new Talon(0);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
 	public static final int GEARCHANGELEFTBUTTONID = 1;
@@ -26,7 +49,7 @@ public final class Constants {
 	public static final int EXTENDARMBUTTONID = 12;
 	public static final int PULLUPROBOTBUTTONID = 9;
 	//Motor Controllers for ClimbControl
-	public static final CANTalon GEARCHANGELEFTCONTROLLER = new CANTalon(2);
+	public static final Talon GEARCHANGELEFTCONTROLLER = new Talon(1);
 	public static final CANTalon GEARCHANGERIGHTCONTROLLER = new CANTalon(3);
 	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(4);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
