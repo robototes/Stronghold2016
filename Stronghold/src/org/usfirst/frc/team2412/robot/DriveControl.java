@@ -14,8 +14,13 @@ public class DriveControl extends RobotControl {
 	
 
 	void drive() {
-		
-		rd.arcadeDrive(stick);
+		if(stick.getRawButton(5)) {
+			//Drive like airplane
+			rd.arcadeDrive(-stick.getY(), -stick.getX(), true); System.out.println("airplane");
+		} else {
+			//Drive with twist
+			rd.arcadeDrive(-stick.getY(), -stick.getTwist(), true);
+		}
 	}
 	@Override
 	public void process() {

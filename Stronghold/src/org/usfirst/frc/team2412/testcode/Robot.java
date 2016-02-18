@@ -66,12 +66,13 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		if(coStick.getRawButton(9))
+		if(coStick.getRawButton(9)) {
 			//Drive like airplane
-			myRobot.arcadeDrive(-stick.getY(), -stick.getX(), false);
-		else
+			myRobot.arcadeDrive(stick.getY(), stick.getX(), false); System.out.println("airplane");
+		} else {
 			//Drive with twist
-			myRobot.arcadeDrive(-stick.getY(), -stick.getTwist(), false);
+			myRobot.arcadeDrive(stick.getY(), stick.getTwist(), false);
+		}
 		//alternatively we could just do:
 		//myRobot.arcadeDrive(-stick.getY(), -(coStick.getRawButton(9) ? stick.getX() : stick.getTwist()), false);
 		//but the way above is much simpler.
