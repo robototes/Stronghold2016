@@ -21,8 +21,8 @@ public class ClimbControl extends RobotControl {
 			Constants.GEARCHANGERIGHTCONTROLLER.set(0);
 		}
 	}
-	void extendArm(boolean buttonPressed) {
-		if(buttonPressed) {
+	void extendArm(boolean buttonPressed, boolean stop) {
+		if(buttonPressed && !stop) {
 			Constants.EXTENDARMCONTROLLER.set(1);
 		} else {
 			Constants.EXTENDARMCONTROLLER.set(0);
@@ -50,7 +50,7 @@ public class ClimbControl extends RobotControl {
 	public void process() {
 		changeGearsLeft(stick.getRawButton(Constants.GEARCHANGELEFTBUTTONID));
 		changeGearsRight(stick.getRawButton(Constants.GEARCHANGERIGHTBUTTONID));
-		extendArm(stick.getRawButton(Constants.EXTENDARMBUTTONID));
+		extendArm(stick.getRawButton(Constants.EXTENDARMBUTTONID), false);
 		pullUpRobot(stick.getRawButton(Constants.PULLUPROBOTBUTTONID));
 	}
 

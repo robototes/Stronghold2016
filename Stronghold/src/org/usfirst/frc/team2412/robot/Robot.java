@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
 		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
-		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
+		rcs[1] = new IntakeControl(Constants.CODRIVERCONTROLS);
 	}
 	
 	/**
@@ -34,13 +34,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
-		/*if(autoLoopCounter < 100) //Check if we've completed 100 loops (approximately 2 seconds)
-		{
-			myRobot.drive(-0.5, 0.0); 	// drive forwards half speed
-			autoLoopCounter++;
-			} else {
-			myRobot.drive(0.0, 0.0); 	// stop robot
-		}*/
 	}
 	
 	/**
@@ -65,7 +58,6 @@ public class Robot extends IterativeRobot {
 		for(RobotControl rc : rcs) {
 			if(rc!=null) rc.process();
 		}
-		
 	}
 	
 	/**

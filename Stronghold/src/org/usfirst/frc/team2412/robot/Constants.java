@@ -38,16 +38,16 @@ public final class Constants {
 	public static final CANTalon DRIVEREARRIGHTCONTROLLER = new CANTalon(5);
 	
 	//Buttons IDs for IntakeControl
-	public static final int TAKEINBALLBUTTONID = 5;
-	public static final int SHOOTOUTBALLBUTTONID = 6;
+	public static final int TAKEINBALLBUTTONID = 3;
+	public static final int SHOOTOUTBALLBUTTONID = 1; //same as GEARCHANGELEFTBUTTONID, but on joystick, not codriver
 	//Motor Controller for IntakeControl (currently talon sr, should change to talon srx)
 	public static final Talon INTAKEMOTORCONTROLLER = new Talon(0);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
 	public static final int GEARCHANGELEFTBUTTONID = 1;
 	public static final int GEARCHANGERIGHTBUTTONID = 2;
-	public static final int EXTENDARMBUTTONID = 12;
-	public static final int PULLUPROBOTBUTTONID = 9;
+	public static final int EXTENDARMBUTTONID = 11;
+	public static final int PULLUPROBOTBUTTONID = 5;
 	//Motor Controllers for ClimbControl
 	public static final Talon GEARCHANGELEFTCONTROLLER = new Talon(1);
 	public static final CANTalon GEARCHANGERIGHTCONTROLLER = new CANTalon(3);
