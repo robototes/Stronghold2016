@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2412.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 
@@ -14,32 +15,78 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 public class Robot extends IterativeRobot {
 	RobotControl rcs[] = new RobotControl[2];
 	
+	
+	/********AUTONOMOUS VARIABLES****************/
+	//startup time for autonomous (in nanoseconds)
+	long startupTimeAutonomous;
+	
+	//how long we want to drive (in nanoseconds)
+	long driveTimeAutonomous = 1000000000;
+	
+	//Robotdrive for autonomous (set to null at teleopInit so we don't interfere)
+	RobotDrive robotDriveAutonomous = null;
+	
+	//which autonomous mode we are in (see Constants.java)
+	private int autonomousMode = -1; //negative because that is not a valid Autonomous Mode Value
+	
+	//Position of robot, represented as an int
+	//Position codes:
+	// ----- ----- ----- ----- ----- -----
+	//|     |     |     |     |     |     |
+	//|  0  |  1  |  2  |  3  |  4  | S.P |
+	//|     |     |     |     |     |     |
+	// ----- ----- ----- ----- ----- -----
+	//S.P = Secret Passage
+	private int robotPosition = -1; //negative so we know that it has not been set.
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
-		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEFRONTLEFTCONTROLLER, Constants.DRIVEREARLEFTCONTROLLER, Constants.DRIVEFRONTRIGHTCONTROLLER, Constants.DRIVEREARRIGHTCONTROLLER);
-		rcs[1] = new IntakeControl(Constants.CODRIVERCONTROLS);
+		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEL1CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER3CONTROLLER);
+		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
 	}
 	
 	/**
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER3CONTROLLER);
+		startupTimeAutonomous = System.nanoTime();
 	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		updateAutonomousMode();
+		switch(autonomousMode) {
+		case Constants.MOVETOWARDSOBSTACLE:
+			
+		case Constants.DRIVETHROUGHOBSTACLE:
+		case Constants.MOVETOWARDGOAL:
+		case Constants.SHOOT:
+		}
 	}
 	
+	//method to update autonomous mode if necessary
+	private void updateAutonomousMode() {
+			switch(autonomousMode) {
+			case Constants.MOVETOWARDSOBSTACLE:
+			case Constants.DRIVETHROUGHOBSTACLE:
+			case Constants.MOVETOWARDGOAL:
+			case Constants.SHOOT:
+			default:
+				autonomousMode = 0;
+			}
+	}
 	/**
 	 * This function is called once each time the robot enters tele-operated mode
 	 */
 	public void teleopInit(){
+		//set robotDriveAutonomous to null so it doesn't interfere with the teleop motor code
+		robotDriveAutonomous = null;
 	}
 
 	/**

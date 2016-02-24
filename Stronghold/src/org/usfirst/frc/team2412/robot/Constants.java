@@ -1,8 +1,8 @@
 package org.usfirst.frc.team2412.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
 
 
 // Robot CANTalon <ID> assignment guide
@@ -27,21 +27,24 @@ import edu.wpi.first.wpilibj.Talon;
 // 7,8 = Climb motor mode switch
 // 9 = Intake motor
 public final class Constants {
+	/******************************TELEOPERATED CONSTANTS******************************************/
 	//Joysticks
 	public static final Joystick DRIVERCONTROLS = new Joystick(0); //Joystick for controlling driving
 	public static final Joystick CODRIVERCONTROLS = new Joystick(1); //"Joystick" (actually the co-driver) for other operations such as shooting
 	
 	//CANTalons for DriveControl
-	public static final CANTalon DRIVEFRONTLEFTCONTROLLER = new CANTalon(2);
-	public static final CANTalon DRIVEREARLEFTCONTROLLER = new CANTalon(4);
-	public static final CANTalon DRIVEFRONTRIGHTCONTROLLER = new CANTalon(3);
-	public static final CANTalon DRIVEREARRIGHTCONTROLLER = new CANTalon(5);
+	public static final CANTalon DRIVEL1CONTROLLER = new CANTalon(6);
+	public static final CANTalon DRIVEL2CONTROLLER = new CANTalon(7);
+	public static final CANTalon DRIVEL3CONTROLLER = new CANTalon(4);
+	public static final CANTalon DRIVER1CONTROLLER = new CANTalon(8);
+	public static final CANTalon DRIVER2CONTROLLER = new CANTalon(3);
+	public static final CANTalon DRIVER3CONTROLLER = new CANTalon(2);
 	
-	//Buttons IDs for IntakeControl
+	//Buttons IDs for IntakeControl (on Joystick for now, we need to change them later)
 	public static final int TAKEINBALLBUTTONID = 3;
 	public static final int SHOOTOUTBALLBUTTONID = 1; //same as GEARCHANGELEFTBUTTONID, but on joystick, not codriver
-	//Motor Controller for IntakeControl (currently talon sr, should change to talon srx)
-	public static final Talon INTAKEMOTORCONTROLLER = new Talon(0);
+	//Motor Controller for IntakeControl
+	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
 	public static final int GEARCHANGELEFTBUTTONID = 1;
@@ -49,8 +52,21 @@ public final class Constants {
 	public static final int EXTENDARMBUTTONID = 11;
 	public static final int PULLUPROBOTBUTTONID = 5;
 	//Motor Controllers for ClimbControl
-	public static final Talon GEARCHANGELEFTCONTROLLER = new Talon(1);
-	public static final CANTalon GEARCHANGERIGHTCONTROLLER = new CANTalon(3);
-	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(4);
+	public static final CANTalon GEARCHANGELEFTCONTROLLER = new CANTalon(9);
+	public static final CANTalon GEARCHANGERIGHTCONTROLLER = new CANTalon(10);
+	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(11);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
+	
+	/****************************AUTONOMOUS CONSTANTS********************************************/
+	
+	//Which DIO pin the Optical Sensor is plugged into.
+	public static final int OPTICALSENSORPIN = 0;
+	//The actual Optical Sensor (as DigitalInput because the Optical Sensor is connected to DIO)
+	public static final DigitalInput OPTICALSENSOR = new DigitalInput(OPTICALSENSORPIN);
+	
+	//Constants determining which mode we're in (going from what the robot needs to do first to last)
+	public static final int MOVETOWARDSOBSTACLE = 0;
+	public static final int DRIVETHROUGHOBSTACLE = 1; //includes driving all the way until the wall
+	public static final int MOVETOWARDGOAL = 2;
+	public static final int SHOOT = 3;
 };
