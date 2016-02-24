@@ -34,15 +34,19 @@ public class ClimbControl extends RobotControl {
 			double stickYAxis = stick.getY();
 			stickYAxis = stickYAxis <= 0 ? stickYAxis : 0;
 			Constants.DRIVEL1CONTROLLER.set(stickYAxis);
+			Constants.DRIVEL2CONTROLLER.set(stickYAxis);
 			Constants.DRIVEL3CONTROLLER.set(stickYAxis);
 			Constants.DRIVER1CONTROLLER.set(stickYAxis);
+			Constants.DRIVER2CONTROLLER.set(stickYAxis);
 			Constants.DRIVER3CONTROLLER.set(stickYAxis);
 			System.out.println("Pulling up robot: " + stickYAxis);
 		} else {
 			//set all drive motors to zero
 			Constants.DRIVEL1CONTROLLER.set(0);
+			Constants.DRIVEL2CONTROLLER.set(0);
 			Constants.DRIVEL3CONTROLLER.set(0);
 			Constants.DRIVER1CONTROLLER.set(0);
+			Constants.DRIVER2CONTROLLER.set(0);
 			Constants.DRIVER3CONTROLLER.set(0);
 		}
 	}
