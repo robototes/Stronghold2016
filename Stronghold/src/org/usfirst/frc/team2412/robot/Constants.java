@@ -33,8 +33,8 @@ public final class Constants {
 	public static final Joystick CODRIVERCONTROLS = new Joystick(1); //"Joystick" (actually the co-driver) for other operations such as shooting
 	
 	//CANTalons for DriveControl
-	public static final CANTalon DRIVEL1CONTROLLER = new CANTalon(6);
-	public static final CANTalon DRIVEL2CONTROLLER = new CANTalon(7);
+	public static final CANTalon DRIVEL1CONTROLLER = new CANTalon(6);//TODO change l1 and l2 to 6 and 7 for the competition robot
+	public static final CANTalon DRIVEL2CONTROLLER = new CANTalon(12);
 	public static final CANTalon DRIVEL3CONTROLLER = new CANTalon(4);
 	public static final CANTalon DRIVER1CONTROLLER = new CANTalon(8);
 	public static final CANTalon DRIVER2CONTROLLER = new CANTalon(3);
@@ -69,4 +69,5 @@ public final class Constants {
 	public static final int DRIVETHROUGHOBSTACLE = 1; //includes driving all the way until the wall
 	public static final int MOVETOWARDGOAL = 2;
 	public static final int SHOOT = 3;
+	public static final int DRIVEBACK = 4;
 };

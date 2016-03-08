@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	RobotDrive robotDriveAutonomous = null;
 	
 	//which autonomous mode we are in (see Constants.java)
-	private int autonomousMode = -1; //negative because that is not a valid Autonomous Mode Value
+	private int autonomousMode = Constants.MOVETOWARDSOBSTACLE; //negative because that is not a valid Autonomous Mode Value
 	
 	//Position of robot, represented as an int
 	//Position codes:
@@ -37,14 +37,15 @@ public class Robot extends IterativeRobot {
 	//|     |     |     |     |     |     |
 	// ----- ----- ----- ----- ----- -----
 	//S.P = Secret Passage
-	private int robotPosition = -1; //negative so we know that it has not been set.
+	//private int robotPosition = -1; //negative so we know that it has not been set.
+	//private int obstaclePosition = -1; //negative; see above for position codes.
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
-		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEL1CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER3CONTROLLER);
+		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER, Constants.DRIVER3CONTROLLER);
 		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
 	}
 	
@@ -52,7 +53,7 @@ public class Robot extends IterativeRobot {
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
-		robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER3CONTROLLER);
+		robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER);
 		startupTimeAutonomous = System.nanoTime();
 	}
 
@@ -63,22 +64,58 @@ public class Robot extends IterativeRobot {
 		updateAutonomousMode();
 		switch(autonomousMode) {
 		case Constants.MOVETOWARDSOBSTACLE:
-			
+			//if(robotPosition == obstaclePosition) {
+				//drive forward for now
+				//robotDriveAutonomous.drive(1.0, 0.0);
+			//}
+			//break;
+			System.out.println("Move toward");
+			robotDriveAutonomous.drive(0.25, 0.0);
+			break;
 		case Constants.DRIVETHROUGHOBSTACLE:
+			robotDriveAutonomous.drive(0.25, 0.0);
+			System.out.println("Drive through obstacle");
+			break;
 		case Constants.MOVETOWARDGOAL:
+			//turn
+			System.out.println("Turning");
+			robotDriveAutonomous.drive(0.25, 1.0);
+			break;
 		case Constants.SHOOT:
+			System.out.println("Shoot");
+			robotDriveAutonomous.drive(0.0, 0.0); //stop
+			Constants.INTAKEMOTORCONTROLLER.set(1.0);
+			break;
+		case Constants.DRIVEBACK:
+			System.out.println("Driving back");
+			robotDriveAutonomous.drive(0.25, 0);
+			break;
 		}
 	}
 	
 	//method to update autonomous mode if necessary
 	private void updateAutonomousMode() {
+			long deltaTime = System.nanoTime() - startupTimeAutonomous;
+			//System.out.println(deltaTime);
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
+				if(deltaTime > 1000000000L)
+					autonomousMode = Constants.DRIVETHROUGHOBSTACLE;
+				break;
 			case Constants.DRIVETHROUGHOBSTACLE:
+				if(deltaTime > 6000000000L)
+					autonomousMode = Constants.MOVETOWARDGOAL;
+				break;
 			case Constants.MOVETOWARDGOAL:
+				if(deltaTime > 10000000000L)
+					autonomousMode = Constants.SHOOT;
+				break;
 			case Constants.SHOOT:
+				if(deltaTime > 11000000000L)
+					autonomousMode = Constants.DRIVEBACK;
+				break;
 			default:
-				autonomousMode = 0;
+				break;
 			}
 	}
 	/**
