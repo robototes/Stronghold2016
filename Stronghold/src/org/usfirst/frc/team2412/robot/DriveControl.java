@@ -17,12 +17,16 @@ public class DriveControl extends RobotControl {
 	void drive() {
 		if(stick.getRawButton(5)) {
 			//Drive like airplane
-			rd.arcadeDrive(stick.getY(), stick.getX(), false);
-			rd2.arcadeDrive(stick.getY(), stick.getX(), false);
+			double stickY = stick.getY();
+			double stickX = stick.getX();
+			rd.arcadeDrive(stickY, stickX, false); // Question from Mr. Johnston: shouldn we call getY() and getX() only once?
+			rd2.arcadeDrive(stickY, stickX, false);
 		} else {
 			//Drive with twist
-			rd.arcadeDrive(stick.getY(), -stick.getTwist(), false);
-			rd2.arcadeDrive(stick.getY(), -stick.getTwist(), false);
+			double stickY = stick.getY();
+			double twist = -stick.getRawAxis(3);
+			rd.arcadeDrive(stickY, twist, false);
+			rd2.arcadeDrive(stickY, twist, false);
 		}
 	}
 	@Override

@@ -70,25 +70,26 @@ public class Robot extends IterativeRobot {
 			//}
 			//break;
 			System.out.println("Move toward");
-			robotDriveAutonomous.drive(0.25, 0.0);
+			robotDriveAutonomous.drive(0.7, 0.0);
 			break;
 		case Constants.DRIVETHROUGHOBSTACLE:
-			robotDriveAutonomous.drive(0.25, 0.0);
+			robotDriveAutonomous.drive(0.0, 0.0); //stop
 			System.out.println("Drive through obstacle");
 			break;
 		case Constants.MOVETOWARDGOAL:
 			//turn
 			System.out.println("Turning");
-			robotDriveAutonomous.drive(0.25, 1.0);
+			//robotDriveAutonomous.drive(0.7, 1.0);
 			break;
 		case Constants.SHOOT:
 			System.out.println("Shoot");
-			robotDriveAutonomous.drive(0.0, 0.0); //stop
+			//robotDriveAutonomous.drive(0.0, 0.0); //stop
 			Constants.INTAKEMOTORCONTROLLER.set(1.0);
 			break;
 		case Constants.DRIVEBACK:
 			System.out.println("Driving back");
-			robotDriveAutonomous.drive(0.25, 0);
+			System.out.println(Constants.DRIVEL2CONTROLLER.getEncPosition());
+			//robotDriveAutonomous.drive(0.7, 0);
 			break;
 		}
 	}
@@ -99,19 +100,19 @@ public class Robot extends IterativeRobot {
 			//System.out.println(deltaTime);
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
-				if(deltaTime > 1000000000L)
+				if(deltaTime > 900000000L)
 					autonomousMode = Constants.DRIVETHROUGHOBSTACLE;
 				break;
 			case Constants.DRIVETHROUGHOBSTACLE:
-				if(deltaTime > 6000000000L)
+				if(deltaTime > 2000000000L)
 					autonomousMode = Constants.MOVETOWARDGOAL;
 				break;
 			case Constants.MOVETOWARDGOAL:
-				if(deltaTime > 10000000000L)
+				if(deltaTime > 5000000000L)
 					autonomousMode = Constants.SHOOT;
 				break;
 			case Constants.SHOOT:
-				if(deltaTime > 11000000000L)
+				if(deltaTime > 8000000000L)
 					autonomousMode = Constants.DRIVEBACK;
 				break;
 			default:
