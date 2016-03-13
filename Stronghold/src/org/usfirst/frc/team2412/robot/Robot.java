@@ -18,13 +18,13 @@ public class Robot extends IterativeRobot {
 	
 	/********AUTONOMOUS VARIABLES****************/
 	//startup time for autonomous (in nanoseconds)
-	long startupTimeAutonomous;
-	
+	long startupTimeAutonomous = -1;
 	//how long we want to drive (in nanoseconds)
 	long driveTimeAutonomous = 1000000000;
 	
 	//Robotdrive for autonomous (set to null at teleopInit so we don't interfere)
-	RobotDrive robotDriveAutonomous = null;
+	RobotDrive robotDriveAutonomous = null; 
+	RobotDrive robotDriveAutonomous2 = null;
 	
 	//which autonomous mode we are in (see Constants.java)
 	private int autonomousMode = Constants.MOVETOWARDSOBSTACLE; //negative because that is not a valid Autonomous Mode Value
@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
 		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER, Constants.DRIVER3CONTROLLER);
-		rcs[1] = new IntakeControl(Constants.DRIVERCONTROLS);
+		rcs[1] = new IntakeControl(Constants.CODRIVERCONTROLS);
 	}
 	
 	/**
@@ -54,6 +54,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER);
+		robotDriveAutonomous2 = new RobotDrive(Constants.DRIVEL3CONTROLLER, Constants.DRIVER3CONTROLLER);
 		startupTimeAutonomous = System.nanoTime();
 	}
 
@@ -61,6 +62,15 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	public void autonomousPeriodic() {
+		if(robotDriveAutonomous == null) {
+			robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER);
+		}
+		if(robotDriveAutonomous2 == null) {
+			robotDriveAutonomous2 = new RobotDrive(Constants.DRIVEL3CONTROLLER, Constants.DRIVER3CONTROLLER);
+		}
+		if(startupTimeAutonomous < 0) {
+			startupTimeAutonomous = System.nanoTime();
+		}
 		updateAutonomousMode();
 		switch(autonomousMode) {
 		case Constants.MOVETOWARDSOBSTACLE:
@@ -70,11 +80,13 @@ public class Robot extends IterativeRobot {
 			//}
 			//break;
 			System.out.println("Move toward");
-			robotDriveAutonomous.drive(0.7, 0.0);
+			robotDriveAutonomous.drive(0.85, 0.0); //original was 0.7
+			robotDriveAutonomous2.drive(0.85, 0.0);
 			break;
 		case Constants.DRIVETHROUGHOBSTACLE:
 			robotDriveAutonomous.drive(0.0, 0.0); //stop
-			System.out.println("Drive through obstacle");
+			robotDriveAutonomous2.drive(0.0, 0.0); //stop
+			System.out.println("Stopping"); //  Mr Johnston changed from: "Drive through obstacle");
 			break;
 		case Constants.MOVETOWARDGOAL:
 			//turn
@@ -84,7 +96,7 @@ public class Robot extends IterativeRobot {
 		case Constants.SHOOT:
 			System.out.println("Shoot");
 			//robotDriveAutonomous.drive(0.0, 0.0); //stop
-			Constants.INTAKEMOTORCONTROLLER.set(1.0);
+			//Constants.INTAKEMOTORCONTROLLER.set(1.0);
 			break;
 		case Constants.DRIVEBACK:
 			System.out.println("Driving back");
@@ -100,7 +112,7 @@ public class Robot extends IterativeRobot {
 			//System.out.println(deltaTime);
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
-				if(deltaTime > 900000000L)
+				if(deltaTime > 1600000000L) //original value was 800000000
 					autonomousMode = Constants.DRIVETHROUGHOBSTACLE;
 				break;
 			case Constants.DRIVETHROUGHOBSTACLE:
@@ -122,9 +134,14 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called once each time the robot enters tele-operated mode
 	 */
-	public void teleopInit(){
+	public void teleopInit() {
+		if(robotDriveAutonomous != null)
+			robotDriveAutonomous.drive(0.0, 0.0);
+		if(robotDriveAutonomous2 != null)
+			robotDriveAutonomous2.drive(0.0, 0.0);
 		//set robotDriveAutonomous to null so it doesn't interfere with the teleop motor code
 		robotDriveAutonomous = null;
+		robotDriveAutonomous2 = null;
 	}
 
 	/**
@@ -133,7 +150,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		//check if any of the gear change buttons (used for climbing) have not been pressed (they are being pressed by default on the old codriver) and remove DriveControl if they have (because we won't need it when climbing)
 		//TODO change this to check if the buttons are being pressed (vs. if they are NOT being pressed)
-		if(!Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || !Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
+		if(Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
 			//rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
 			if(rcs[0] instanceof RobotControl) {
 				rcs[0] = new ClimbControl(Constants.CODRIVERCONTROLS);

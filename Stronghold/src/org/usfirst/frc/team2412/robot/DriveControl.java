@@ -15,18 +15,18 @@ public class DriveControl extends RobotControl {
 	}
 
 	void drive() {
+		double stickY = -stick.getY();
+		double stickX = -stick.getX();
+		
+		double stickTwist = -Math.pow(stick.getRawAxis(3), 1); //getRawAxis(3) is for the new joystick, getTwist is for the logitech joystick.
 		if(stick.getRawButton(5)) {
 			//Drive like airplane
-			double stickY = stick.getY();
-			double stickX = stick.getX();
-			rd.arcadeDrive(stickY, stickX, false); // Question from Mr. Johnston: shouldn we call getY() and getX() only once?
-			rd2.arcadeDrive(stickY, stickX, false);
+			rd.arcadeDrive(stickY, stickX, true);
+			rd2.arcadeDrive(stickY, stickX, true);
 		} else {
 			//Drive with twist
-			double stickY = stick.getY();
-			double twist = -stick.getRawAxis(3);
-			rd.arcadeDrive(stickY, twist, false);
-			rd2.arcadeDrive(stickY, twist, false);
+			rd.arcadeDrive(stickY, stickTwist, true); //Math.pow for cubing
+			rd2.arcadeDrive(stickY, stickTwist, true);
 		}
 	}
 	@Override

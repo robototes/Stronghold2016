@@ -33,22 +33,22 @@ public final class Constants {
 	public static final Joystick CODRIVERCONTROLS = new Joystick(1); //"Joystick" (actually the co-driver) for other operations such as shooting
 	
 	//CANTalons for DriveControl
-	public static final CANTalon DRIVEL1CONTROLLER = new CANTalon(6);//TODO change l1 and l2 to 6 and 7 for the competition robot
-	public static final CANTalon DRIVEL2CONTROLLER = new CANTalon(12);
-	public static final CANTalon DRIVEL3CONTROLLER = new CANTalon(4);
+	public static final CANTalon DRIVEL1CONTROLLER = new CANTalon(12);
+	public static final CANTalon DRIVEL2CONTROLLER = new CANTalon(6);
+	public static final CANTalon DRIVEL3CONTROLLER = new CANTalon(7);  // Mr Johnston changed from 4 to 7
 	public static final CANTalon DRIVER1CONTROLLER = new CANTalon(8);
 	public static final CANTalon DRIVER2CONTROLLER = new CANTalon(3);
 	public static final CANTalon DRIVER3CONTROLLER = new CANTalon(2);
 	
-	//Buttons IDs for IntakeControl (on Joystick for now, we need to change them later)
-	public static final int TAKEINBALLBUTTONID = 3;
-	public static final int SHOOTOUTBALLBUTTONID = 1; //same as GEARCHANGELEFTBUTTONID, but on joystick, not codriver
+	//Buttons IDs for IntakeControl (Mr Johnston: now on codriver board)
+	public static final int TAKEINBALLBUTTONID = 1;  // Mr Johnston changed from 3 to 2
+	public static final int SHOOTOUTBALLBUTTONID = 2; //same as GEARCHANGELEFTBUTTONID, but on joystick, not codriver
 	//Motor Controller for IntakeControl
 	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
-	public static final int GEARCHANGELEFTBUTTONID = 1;
-	public static final int GEARCHANGERIGHTBUTTONID = 2;
+	public static final int GEARCHANGELEFTBUTTONID = 3;
+	public static final int GEARCHANGERIGHTBUTTONID = 4;
 	public static final int EXTENDARMBUTTONID = 11;
 	public static final int PULLUPROBOTBUTTONID = 5;
 	//Motor Controllers for ClimbControl

@@ -26,7 +26,7 @@ public class IntakeControl extends RobotControl {
 		} else if(!takeInButtonPressed) { //only set intakemotorcontroller to 0 if the other button isn't being pressed so we don't interfere.
 			//System.out.println("Not shooting out ball");
 			Constants.INTAKEMOTORCONTROLLER.set(0.0);
-		}
+		} 
 	}
 	@Override
 	public void process() {
