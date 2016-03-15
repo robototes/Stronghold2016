@@ -53,6 +53,7 @@ public class Robot extends IterativeRobot {
 	 * This function is run once each time the robot enters autonomous mode
 	 */
 	public void autonomousInit() {
+		autonomousMode = Constants.MOVETOWARDSOBSTACLE; //added so that autonomousMode is reset every single time in order to prevent the robot from starting in the last mode.
 		robotDriveAutonomous = new RobotDrive(Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER);
 		robotDriveAutonomous2 = new RobotDrive(Constants.DRIVEL3CONTROLLER, Constants.DRIVER3CONTROLLER);
 		startupTimeAutonomous = System.nanoTime();
@@ -80,10 +81,12 @@ public class Robot extends IterativeRobot {
 			//}
 			//break;
 			System.out.println("Move toward");
+			//Constants.INTAKEMOTORCONTROLLER.set(-1.0); //lower the arm
 			robotDriveAutonomous.drive(0.85, 0.0); //original was 0.7
 			robotDriveAutonomous2.drive(0.85, 0.0);
 			break;
 		case Constants.DRIVETHROUGHOBSTACLE:
+			Constants.INTAKEMOTORCONTROLLER.set(0.0); //turn off
 			robotDriveAutonomous.drive(0.0, 0.0); //stop
 			robotDriveAutonomous2.drive(0.0, 0.0); //stop
 			System.out.println("Stopping"); //  Mr Johnston changed from: "Drive through obstacle");
@@ -112,15 +115,15 @@ public class Robot extends IterativeRobot {
 			//System.out.println(deltaTime);
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
-				if(deltaTime > 1600000000L) //original value was 800000000
+				if(deltaTime > 3100000000L) //original value was 800000000, next value was 1600000000L, jacob changed 21-31
 					autonomousMode = Constants.DRIVETHROUGHOBSTACLE;
 				break;
 			case Constants.DRIVETHROUGHOBSTACLE:
-				if(deltaTime > 2000000000L)
+				if(deltaTime > 5000000000L) //moved up from 2000000000L because MOVETOWARDSOBSTACLE takes too long. 
 					autonomousMode = Constants.MOVETOWARDGOAL;
 				break;
 			case Constants.MOVETOWARDGOAL:
-				if(deltaTime > 5000000000L)
+				if(deltaTime > 7000000000L) //moved up from 5000000000L. See above.
 					autonomousMode = Constants.SHOOT;
 				break;
 			case Constants.SHOOT:
@@ -135,6 +138,9 @@ public class Robot extends IterativeRobot {
 	 * This function is called once each time the robot enters tele-operated mode
 	 */
 	public void teleopInit() {
+		/****Clean up from autonomous*/
+		startupTimeAutonomous = -1; //reset autonomous time
+		Constants.INTAKEMOTORCONTROLLER.set(0.0); //stop intake motor
 		if(robotDriveAutonomous != null)
 			robotDriveAutonomous.drive(0.0, 0.0);
 		if(robotDriveAutonomous2 != null)
