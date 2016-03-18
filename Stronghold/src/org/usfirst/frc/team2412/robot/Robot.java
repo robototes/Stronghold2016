@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
 	long driveTimeAutonomous = 1000000000;
 	
 	//Robotdrive for autonomous (set to null at teleopInit so we don't interfere)
-	RobotDrive robotDriveAutonomous = null; 
+	RobotDrive robotDriveAutonomous = null;
 	RobotDrive robotDriveAutonomous2 = null;
 	
 	//which autonomous mode we are in (see Constants.java)
@@ -73,6 +73,7 @@ public class Robot extends IterativeRobot {
 			startupTimeAutonomous = System.nanoTime();
 		}
 		updateAutonomousMode();
+		
 		switch(autonomousMode) {
 		case Constants.MOVETOWARDSOBSTACLE:
 			//if(robotPosition == obstaclePosition) {
@@ -82,15 +83,17 @@ public class Robot extends IterativeRobot {
 			//break;
 			System.out.println("Move toward");
 			//Constants.INTAKEMOTORCONTROLLER.set(-1.0); //lower the arm
-			robotDriveAutonomous.drive(0.85, 0.0); //original was 0.7
-			robotDriveAutonomous2.drive(0.85, 0.0);
+			//drive forward at 85%
+			robotDriveAutonomous.drive(0.85, 0.0); //original was 0.7. drives the first four cims
+			robotDriveAutonomous2.drive(0.85, 0.0); //drives the last 2 cims
 			break;
 		case Constants.DRIVETHROUGHOBSTACLE:
 			Constants.INTAKEMOTORCONTROLLER.set(0.0); //turn off
-			robotDriveAutonomous.drive(0.0, 0.0); //stop
-			robotDriveAutonomous2.drive(0.0, 0.0); //stop
+			robotDriveAutonomous.drive(0.0, 0.0); //stop first four cims
+			robotDriveAutonomous2.drive(0.0, 0.0); //stop last 2 cims
 			System.out.println("Stopping"); //  Mr Johnston changed from: "Drive through obstacle");
 			break;
+			//ignore all the stuff below
 		case Constants.MOVETOWARDGOAL:
 			//turn
 			System.out.println("Turning");
@@ -103,7 +106,7 @@ public class Robot extends IterativeRobot {
 			break;
 		case Constants.DRIVEBACK:
 			System.out.println("Driving back");
-			System.out.println(Constants.DRIVEL2CONTROLLER.getEncPosition());
+			System.out.println(Constants.DRIVEL2CONTROLLER.getEncPosition()); //log encoder position
 			//robotDriveAutonomous.drive(0.7, 0);
 			break;
 		}
@@ -111,13 +114,16 @@ public class Robot extends IterativeRobot {
 	
 	//method to update autonomous mode if necessary
 	private void updateAutonomousMode() {
-			long deltaTime = System.nanoTime() - startupTimeAutonomous;
+			long deltaTime = System.nanoTime() - startupTimeAutonomous; //get how long has passed since we first started (in nanoseconds)
 			//System.out.println(deltaTime);
+			//set the autonomousMode based on how much time has passed
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
+				//stop driving forward after 3100000000 nanoseconds (3.1 seconds)
 				if(deltaTime > 3100000000L) //original value was 800000000, next value was 1600000000L, jacob changed 21-31
 					autonomousMode = Constants.DRIVETHROUGHOBSTACLE;
 				break;
+			//ignore all the stuff below:
 			case Constants.DRIVETHROUGHOBSTACLE:
 				if(deltaTime > 5000000000L) //moved up from 2000000000L because MOVETOWARDSOBSTACLE takes too long. 
 					autonomousMode = Constants.MOVETOWARDGOAL;
@@ -174,5 +180,4 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
-	
 }
