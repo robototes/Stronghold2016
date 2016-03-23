@@ -55,8 +55,8 @@ public final class Constants {
 	public static final int EXTENDARMBUTTONID = 11;
 	public static final int PULLUPROBOTBUTTONID = 5;
 	//Motor Controllers for ClimbControl
-	public static final Victor SHIFTERCHANGELEFTCONTROLLER = new Victor(9);
-	public static final Victor SHIFTERCHANGERIGHTCONTROLLER = new Victor(11);
+	public static final Victor SHIFTERCHANGELEFTCONTROLLER = new Victor(0);
+	public static final Victor SHIFTERCHANGERIGHTCONTROLLER = new Victor(1);
 	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(10);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
 	
