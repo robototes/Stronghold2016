@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 		Constants.INTAKEMOTORCONTROLLER.setSafetyEnabled(false);
 		rcs[0] = new DriveControl(Constants.DRIVERCONTROLS, Constants.DRIVEL1CONTROLLER, Constants.DRIVEL2CONTROLLER, Constants.DRIVEL3CONTROLLER, Constants.DRIVER1CONTROLLER, Constants.DRIVER2CONTROLLER, Constants.DRIVER3CONTROLLER);
 		rcs[1] = new IntakeControl(Constants.CODRIVERCONTROLS);
+		rcs[2] = new ClimbControl(Constants.CODRIVERCONTROLS);
 	}
 	
 	/**
@@ -116,7 +117,7 @@ public class Robot extends IterativeRobot {
 	private void updateAutonomousMode() {
 			long deltaTime = System.nanoTime() - startupTimeAutonomous; //get how long has passed since we first started (in nanoseconds)
 			//System.out.println(deltaTime);
-			//set the autonomousMode based on how much time has passed
+			//set autonomousMode based on how much time has passed
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
 				//stop driving forward after 3100000000 nanoseconds (3.1 seconds)
@@ -160,15 +161,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		//check if any of the gear change buttons (used for climbing) have not been pressed (they are being pressed by default on the old codriver) and remove DriveControl if they have (because we won't need it when climbing)
-		//TODO change this to check if the buttons are being pressed (vs. if they are NOT being pressed)
-		if(Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGELEFTBUTTONID) || Constants.CODRIVERCONTROLS.getRawButton(Constants.GEARCHANGERIGHTBUTTONID)) { 
-			//rcs[0] = null; //the first RobotControl class will always be RobotDrive. Setting it to null will make the loop below ignore it.
-			if(rcs[0] instanceof RobotControl) {
-				rcs[0] = new ClimbControl(Constants.CODRIVERCONTROLS);
-				System.out.println("ClimbControl");
-			}
-		}
 		for(RobotControl rc : rcs) {
 			if(rc!=null) rc.process();
 		}

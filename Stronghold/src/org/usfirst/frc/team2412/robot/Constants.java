@@ -3,6 +3,7 @@ package org.usfirst.frc.team2412.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Victor;
 
 
 // Robot CANTalon <ID> assignment guide
@@ -47,14 +48,16 @@ public final class Constants {
 	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
-	public static final int GEARCHANGELEFTBUTTONID = 6;
-	public static final int GEARCHANGERIGHTBUTTONID = 7;
-	public static final int CLIMBBUTTONID = 4;
-	public static final int DESCENDBUTTONID = 5;
+	public static final int SHIFTERCHANGECLIMBLEFTBUTTONID = 6;
+	public static final int SHIFTERCHANGEDRIVELEFTBUTTONID = 11;
+	public static final int SHIFTERCHANGECLIMBRIGHTBUTTONID = 7;
+	public static final int SHIFTERCHANGEDRIVERIGHTBUTTONID = 9;
+	public static final int EXTENDARMBUTTONID = 11;
+	public static final int PULLUPROBOTBUTTONID = 5;
 	//Motor Controllers for ClimbControl
-	public static final CANTalon GEARCHANGELEFTCONTROLLER = new CANTalon(9);
-	public static final CANTalon GEARCHANGERIGHTCONTROLLER = new CANTalon(11);
-	public static final CANTalon CLIMBCONTROLLER = new CANTalon(10);
+	public static final Victor SHIFTERCHANGELEFTCONTROLLER = new Victor(9);
+	public static final Victor SHIFTERCHANGERIGHTCONTROLLER = new Victor(11);
+	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(10);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
 	
 	/****************************AUTONOMOUS CONSTANTS********************************************/

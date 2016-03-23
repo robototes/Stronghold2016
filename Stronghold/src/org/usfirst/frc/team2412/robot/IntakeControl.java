@@ -12,7 +12,7 @@ public class IntakeControl extends RobotControl {
 		if(takeInButtonPressed) {
 			//start taking in the ball if we haven't already
 			//System.out.println("Taking in ball");
-			Constants.INTAKEMOTORCONTROLLER.set(-1.0);
+			Constants.INTAKEMOTORCONTROLLER.set((-stick.getZ() - 1.0)/2);
 		} else if (!shootOutButtonPressed) { //only set intakemotorcontroller to 0 if the other button isn't being pressed so we don't interfere.
 			//System.out.println("Not taking in ball");
 			Constants.INTAKEMOTORCONTROLLER.set(0); //stop the motor
@@ -22,10 +22,10 @@ public class IntakeControl extends RobotControl {
 	private void shootOutBall(boolean takeInButtonPressed, boolean shootOutButtonPressed) {
 		if(shootOutButtonPressed) {
 			//System.out.println("Shooting out ball");
-			Constants.INTAKEMOTORCONTROLLER.set(1.0);
+			Constants.INTAKEMOTORCONTROLLER.set((stick.getZ() + 1.0)/2);
 		} else if(!takeInButtonPressed) { //only set intakemotorcontroller to 0 if the other button isn't being pressed so we don't interfere.
 			//System.out.println("Not shooting out ball");
-			Constants.INTAKEMOTORCONTROLLER.set(0.0);
+			Constants.INTAKEMOTORCONTROLLER.set(0);
 		} 
 	}
 	@Override
