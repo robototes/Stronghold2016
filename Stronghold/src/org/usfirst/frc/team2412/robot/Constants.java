@@ -3,7 +3,6 @@ package org.usfirst.frc.team2412.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Victor;
 
 
 // Robot CANTalon <ID> assignment guide
@@ -54,9 +53,9 @@ public final class Constants {
 	public static final int SHIFTERCHANGEDRIVERIGHTBUTTONID = 9;
 	public static final int EXTENDARMBUTTONID = 11;
 	public static final int PULLUPROBOTBUTTONID = 5;
-	//Motor Controllers for ClimbControl
-	public static final Victor SHIFTERCHANGELEFTCONTROLLER = new Victor(0);
-	public static final Victor SHIFTERCHANGERIGHTCONTROLLER = new Victor(1);
+	//Motor Controllers for ClimbControl (changed from Victor to CANTalon)
+	public static final CANTalon SHIFTERCHANGELEFTCONTROLLER = new CANTalon(0); 
+	public static final CANTalon SHIFTERCHANGERIGHTCONTROLLER = new CANTalon(1);
 	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(10);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
 	

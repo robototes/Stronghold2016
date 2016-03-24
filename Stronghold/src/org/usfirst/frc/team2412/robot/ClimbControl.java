@@ -1,7 +1,7 @@
 package org.usfirst.frc.team2412.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Victor;
 
 public class ClimbControl extends RobotControl {
 
@@ -12,7 +12,7 @@ public class ClimbControl extends RobotControl {
 	public ClimbControl(Joystick stick) {
 		this.stick = stick;
 	}
-	private void updateShifters(boolean climbButtonPressed, boolean driveButtonPressed, Victor t, boolean climbLeft) {
+	private void updateShifters(boolean climbButtonPressed, boolean driveButtonPressed, CANTalon t, boolean climbLeft) {
 		if(climbButtonPressed) {
 			//climb button pressed, set victor to 100%
 			t.set(1.0);
@@ -37,6 +37,7 @@ public class ClimbControl extends RobotControl {
 		}
 	}
 	void pullUpRobot(boolean buttonPressed) {
+		//
 		if(buttonPressed) {
 			//set all drive motors to the stick's y value
 			double stickYAxis = stick.getY();

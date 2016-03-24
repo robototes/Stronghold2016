@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	RobotControl rcs[] = new RobotControl[2];
+	RobotControl rcs[] = new RobotControl[3];//Jacob changed it from 2 to 3
 	
 	
 	/********AUTONOMOUS VARIABLES****************/
