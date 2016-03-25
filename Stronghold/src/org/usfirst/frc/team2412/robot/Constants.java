@@ -41,10 +41,10 @@ public final class Constants {
 	public static final CANTalon DRIVER3CONTROLLER = new CANTalon(2);
 	
 	//Buttons IDs for IntakeControl (Mr Johnston: now on codriver board)
-	public static final int TAKEINBALLBUTTONID = 1;  // Mr Johnston changed from 3 to 2
+	public static final int TAKEINBALLBUTTONID = 1;
 	public static final int SHOOTOUTBALLBUTTONID = 2; //same as GEARCHANGELEFTBUTTONID, but on joystick, not codriver
 	//Motor Controller for IntakeControl
-	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(5);
+	public static final CANTalon INTAKEMOTORCONTROLLER = new CANTalon(9);
 	
 	//Button IDs for ClimbControl (They will be on the codriver)
 	public static final int SHIFTERCHANGECLIMBLEFTBUTTONID = 6;
@@ -55,8 +55,8 @@ public final class Constants {
 	public static final int PULLUPROBOTBUTTONID = 3;  // Mr Alan changed from 5 to 3
 	//Motor Controllers for ClimbControl (changed from Victor to CANTalon)
 	public static final CANTalon SHIFTERCHANGELEFTCONTROLLER = new CANTalon(1); // Mr Alan changed from 0 to 1
-	public static final CANTalon SHIFTERCHANGERIGHTCONTROLLER = new CANTalon(4); // Mr Alan changed from 1 to 4
-	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(10);
+	public static final CANTalon SHIFTERCHANGERIGHTCONTROLLER = new CANTalon(11);
+	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(5);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
 	
 	/****************************AUTONOMOUS CONSTANTS********************************************/
