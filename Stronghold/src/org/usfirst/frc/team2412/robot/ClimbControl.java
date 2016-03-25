@@ -31,7 +31,7 @@ public class ClimbControl extends RobotControl {
 	}
 	void extendArm(boolean buttonPressed, boolean stop) {
 		if(buttonPressed && !stop) {
-			Constants.EXTENDARMCONTROLLER.set(0.7);
+			Constants.EXTENDARMCONTROLLER.set(0.8);  // Mr Alan changed from 1 to 0.8
 		} else {
 			Constants.EXTENDARMCONTROLLER.set(0);
 		}
