@@ -51,11 +51,11 @@ public final class Constants {
 	public static final int SHIFTERCHANGEDRIVELEFTBUTTONID = 11;
 	public static final int SHIFTERCHANGECLIMBRIGHTBUTTONID = 7;
 	public static final int SHIFTERCHANGEDRIVERIGHTBUTTONID = 9;
-	public static final int EXTENDARMBUTTONID = 11;
-	public static final int PULLUPROBOTBUTTONID = 5;
+	public static final int EXTENDARMBUTTONID = 5;  // Mr Alan changed from 11 to 5
+	public static final int PULLUPROBOTBUTTONID = 3;  // Mr Alan changed from 5 to 3
 	//Motor Controllers for ClimbControl (changed from Victor to CANTalon)
-	public static final CANTalon SHIFTERCHANGELEFTCONTROLLER = new CANTalon(0); 
-	public static final CANTalon SHIFTERCHANGERIGHTCONTROLLER = new CANTalon(1);
+	public static final CANTalon SHIFTERCHANGELEFTCONTROLLER = new CANTalon(1); // Mr Alan changed from 0 to 1
+	public static final CANTalon SHIFTERCHANGERIGHTCONTROLLER = new CANTalon(4); // Mr Alan changed from 1 to 4
 	public static final CANTalon EXTENDARMCONTROLLER = new CANTalon(10);
 	//The CANTalons for pulling the robot up are the same as the ones for DriveControl (see above)
 	
