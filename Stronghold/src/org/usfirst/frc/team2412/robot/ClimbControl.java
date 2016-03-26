@@ -15,11 +15,11 @@ public class ClimbControl extends RobotControl {
 	private void updateShifters(boolean climbButtonPressed, boolean driveButtonPressed, CANTalon t, boolean climbLeft) {
 		if(climbButtonPressed) {
 			//climb button pressed, set victor to 100%
-			t.set(1.0);
+			t.set(-1.0);
 			if(climbLeft) doClimbLeft = true; else doClimbRight = true;
 		} else if(driveButtonPressed) {
 			//drive button pressed, set victor to 100%
-			t.set(-1.0);
+			t.set(1.0);
 			if(climbLeft) doClimbLeft = false; else doClimbRight = false;
 		} else if(climbLeft ? doClimbLeft : doClimbRight) {
 			//set to 10%
@@ -31,7 +31,7 @@ public class ClimbControl extends RobotControl {
 	}
 	void extendArm(boolean buttonPressed, boolean stop) {
 		if(buttonPressed && !stop) {
-			Constants.EXTENDARMCONTROLLER.set(0.8);  // Mr Alan changed from 1 to 0.8
+			Constants.EXTENDARMCONTROLLER.set(0.6);  // Mr Alan changed from 1 to 0.8
 		} else {
 			Constants.EXTENDARMCONTROLLER.set(0);
 		}
