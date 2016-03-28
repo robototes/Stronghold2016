@@ -23,10 +23,10 @@ public class ClimbControl extends RobotControl {
 			if(climbLeft) doClimbLeft = false; else doClimbRight = false;
 		} else if(climbLeft ? doClimbLeft : doClimbRight) {
 			//set to 10%
-			t.set(0.1);
+			t.set(-0.1);//Jacob changed it to work
 		} else {
 			//set to 10%
-			t.set(-0.1);
+			t.set(0.1);//Jacob changed it to work
 		}
 	}
 	void extendArm(boolean buttonPressed, boolean stop) {
@@ -64,7 +64,7 @@ public class ClimbControl extends RobotControl {
 		updateShifters(stick.getRawButton(Constants.SHIFTERCHANGECLIMBLEFTBUTTONID), stick.getRawButton(Constants.SHIFTERCHANGEDRIVELEFTBUTTONID), Constants.SHIFTERCHANGELEFTCONTROLLER, true);
 		updateShifters(stick.getRawButton(Constants.SHIFTERCHANGECLIMBRIGHTBUTTONID), stick.getRawButton(Constants.SHIFTERCHANGEDRIVERIGHTBUTTONID), Constants.SHIFTERCHANGERIGHTCONTROLLER, false);
 		extendArm(stick.getRawButton(Constants.EXTENDARMBUTTONID), false);
-		pullUpRobot(stick.getRawButton(Constants.PULLUPROBOTBUTTONID));
+		//pullUpRobot(stick.getRawButton(Constants.PULLUPROBOTBUTTONID));
 	}
 
 }
