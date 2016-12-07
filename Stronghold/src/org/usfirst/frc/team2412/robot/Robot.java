@@ -94,22 +94,6 @@ public class Robot extends IterativeRobot {
 			robotDriveAutonomous2.drive(0.0, 0.0); //stop last 2 cims
 			System.out.println("Stopping"); //  Mr Johnston changed from: "Drive through obstacle");
 			break;
-			//ignore all the stuff below
-		case Constants.MOVETOWARDGOAL:
-			//turn
-			System.out.println("Turning");
-			//robotDriveAutonomous.drive(0.7, 1.0);
-			break;
-		case Constants.SHOOT:
-			System.out.println("Shoot");
-			//robotDriveAutonomous.drive(0.0, 0.0); //stop
-			//Constants.INTAKEMOTORCONTROLLER.set(1.0);
-			break;
-		case Constants.DRIVEBACK:
-			System.out.println("Driving back");
-			System.out.println(Constants.DRIVEL2CONTROLLER.getEncPosition()); //log encoder position
-			//robotDriveAutonomous.drive(0.7, 0);
-			break;
 		}
 	}
 	
@@ -117,7 +101,7 @@ public class Robot extends IterativeRobot {
 	private void updateAutonomousMode() {
 			long deltaTime = System.nanoTime() - startupTimeAutonomous; //get how long has passed since we first started (in nanoseconds)
 			//System.out.println(deltaTime);
-			//set autonomousMode based on how much time has passed
+			//This is a simple implementation of a state machine - autonomousMode is set based on how much time has passed.
 			switch(autonomousMode) {
 			case Constants.MOVETOWARDSOBSTACLE:
 				//stop driving forward after 3100000000 nanoseconds (3.1 seconds)
@@ -148,6 +132,7 @@ public class Robot extends IterativeRobot {
 		/****Clean up from autonomous*/
 		startupTimeAutonomous = -1; //reset autonomous time
 		Constants.INTAKEMOTORCONTROLLER.set(0.0); //stop intake motor
+		//Stop all motors
 		if(robotDriveAutonomous != null)
 			robotDriveAutonomous.drive(0.0, 0.0);
 		if(robotDriveAutonomous2 != null)
@@ -161,6 +146,7 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		//Run all non-null RobotControls
 		for(RobotControl rc : rcs) {
 			if(rc!=null) rc.process();
 		}
